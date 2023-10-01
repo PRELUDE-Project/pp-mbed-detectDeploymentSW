@@ -1,12 +1,17 @@
 #include "mbed.h"
+DigitalIn _pin_plus(p10);
+DigitalIn _pin_minus(p11);
+RawSerial pc(USBTX, USBRX, 9600);
 
-DigitalOut myled(LED1);
+int plus_input, minus_input;
 
 int main() {
-  while(1) {
-    myled = 1;
-    wait(0.2);
-    myled = 0;
-    wait(0.2);
-  }
+    _pin_plus.mode(PullUp);
+    _pin_minus.mode(PullUp);
+    while(1) {
+        plus_input  = _pin_plus;
+        minus_input = _pin_minus;
+        pc.printf("plus_input: %d, minus_input: %d\r\n", plus_input, minus_input);
+        wait(1.0);
+    }
 }
